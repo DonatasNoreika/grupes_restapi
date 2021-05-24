@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, permissions
 from .models import (Band,
                      Album,
                      Song,
@@ -34,6 +34,7 @@ class SongList(generics.ListCreateAPIView):
 class AlbumReviewList(generics.ListCreateAPIView):
     queryset = AlbumReview.objects.all()
     serializer_class = AlbumReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
