@@ -12,7 +12,9 @@ from .models import (Band,
                      AlbumReviewLike)
 from .serializers import (BandSerializer,
                           AlbumSerializer,
-                          SongSerializer)
+                          SongSerializer,
+                          AlbumReviewSerializer)
+
 
 class BandList(generics.ListCreateAPIView):
     queryset = Band.objects.all()
@@ -27,3 +29,8 @@ class AlbumList(generics.ListCreateAPIView):
 class SongList(generics.ListCreateAPIView):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
+
+
+class AlbumReviewList(generics.ListCreateAPIView):
+    queryset = AlbumReview.objects.all()
+    serializer_class = AlbumReviewSerializer
