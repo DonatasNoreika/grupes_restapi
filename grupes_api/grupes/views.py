@@ -34,3 +34,6 @@ class SongList(generics.ListCreateAPIView):
 class AlbumReviewList(generics.ListCreateAPIView):
     queryset = AlbumReview.objects.all()
     serializer_class = AlbumReviewSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
