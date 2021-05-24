@@ -26,3 +26,10 @@ class AlbumReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumReview
         fields = ['id', 'user', 'album', 'content', 'score']
+
+class AlbumReviewCommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = AlbumReviewComment
+        fields = ['id', 'user', 'album_review', 'content']

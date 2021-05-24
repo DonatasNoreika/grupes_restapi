@@ -13,7 +13,8 @@ from .models import (Band,
 from .serializers import (BandSerializer,
                           AlbumSerializer,
                           SongSerializer,
-                          AlbumReviewSerializer)
+                          AlbumReviewSerializer,
+                          AlbumReviewCommentSerializer)
 
 
 class BandList(generics.ListCreateAPIView):
@@ -34,6 +35,15 @@ class SongList(generics.ListCreateAPIView):
 class AlbumReviewList(generics.ListCreateAPIView):
     queryset = AlbumReview.objects.all()
     serializer_class = AlbumReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class AlbumReviewCommentList(generics.ListCreateAPIView):
+    queryset = AlbumReviewComment.objects.all()
+    serializer_class = AlbumReviewCommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):

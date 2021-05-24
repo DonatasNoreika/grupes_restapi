@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views import (BandList,
                     AlbumList,
                     SongList,
-                    AlbumReviewList)
+                    AlbumReviewList,
+                    AlbumReviewCommentList)
 
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('albums', AlbumList.as_view()),
     path('songs', SongList.as_view()),
     path('album_reviews', AlbumReviewList.as_view()),
+    path('album_review_comments', AlbumReviewCommentList.as_view()),
 ]

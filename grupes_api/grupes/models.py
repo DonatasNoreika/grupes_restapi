@@ -31,6 +31,8 @@ class AlbumReview(models.Model):
     content = models.TextField(max_length=1000)
     score = models.CharField(verbose_name="Score", max_length=50)
 
+    def __str__(self):
+        return f"{self.user} {self.album} review"
 
 class AlbumReviewComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
