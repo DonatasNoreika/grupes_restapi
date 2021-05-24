@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import Band, Album, Song, AlbumReview, AlbumReviewComment, AlbumReviewLike
+from .models import (Band,
+                     Album,
+                     Song,
+                     AlbumReview,
+                     AlbumReviewComment,
+                     AlbumReviewLike)
 
 
 class BandSerializer(serializers.ModelSerializer):
@@ -27,9 +32,18 @@ class AlbumReviewSerializer(serializers.ModelSerializer):
         model = AlbumReview
         fields = ['id', 'user', 'album', 'content', 'score']
 
+
 class AlbumReviewCommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
         model = AlbumReviewComment
         fields = ['id', 'user', 'album_review', 'content']
+
+
+class AlbumReviewLikeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = AlbumReviewLike
+        fields = ['id', 'user', 'album_review']

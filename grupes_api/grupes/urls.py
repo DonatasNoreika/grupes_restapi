@@ -4,8 +4,8 @@ from .views import (BandList,
                     AlbumList,
                     SongList,
                     AlbumReviewList,
-                    AlbumReviewCommentList)
-
+                    AlbumReviewCommentList,
+                    AlbumReviewLikeList)
 
 urlpatterns = [
     path('bands', BandList.as_view()),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('songs', SongList.as_view()),
     path('album_reviews', AlbumReviewList.as_view()),
     path('album_review_comments', AlbumReviewCommentList.as_view()),
+    path('album_review_likes', AlbumReviewLikeList.as_view()),
 ]

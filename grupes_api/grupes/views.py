@@ -14,7 +14,8 @@ from .serializers import (BandSerializer,
                           AlbumSerializer,
                           SongSerializer,
                           AlbumReviewSerializer,
-                          AlbumReviewCommentSerializer)
+                          AlbumReviewCommentSerializer,
+                          AlbumReviewLikeSerializer)
 
 
 class BandList(generics.ListCreateAPIView):
@@ -44,6 +45,15 @@ class AlbumReviewList(generics.ListCreateAPIView):
 class AlbumReviewCommentList(generics.ListCreateAPIView):
     queryset = AlbumReviewComment.objects.all()
     serializer_class = AlbumReviewCommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class AlbumReviewLikeList(generics.ListCreateAPIView):
+    queryset = AlbumReviewLike.objects.all()
+    serializer_class = AlbumReviewLikeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
