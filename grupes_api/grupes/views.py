@@ -76,6 +76,32 @@ class AlbumReviewList(generics.ListCreateAPIView):
         album = Album.objects.get(pk=self.kwargs['pk'])
         return AlbumReview.objects.filter(album=album)
 
+class AllAlbumReviewList(generics.ListCreateAPIView):
+    queryset = AlbumReview.objects.all()
+    serializer_class = AlbumReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class AlbumReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AlbumReview.objects.all()
+    serializer_class = AlbumReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def delete(self, request, *args, **kwargs):
+        comment = AlbumReview.objects.filter(pk=kwargs['pk'], user=self.request.user)
+        if comment.exists():
+            return self.destroy(request, *args, **kwargs)
+        else:
+            raise ValidationError('Negalima trinti svetimų komentarų!')
+
+    def put(self, request, *args, **kwargs):
+        comment = AlbumReview.objects.filter(pk=kwargs['pk'], user=self.request.user)
+        if comment.exists():
+            return self.update(request, *args, **kwargs)
+        else:
+            raise ValidationError('Negalima koreguoti svetimų komentarų!')
 
 class AlbumReviewCommentList(generics.ListCreateAPIView):
     queryset = AlbumReviewComment.objects.all()
