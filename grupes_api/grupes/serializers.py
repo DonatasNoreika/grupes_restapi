@@ -14,15 +14,19 @@ class BandSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
+    band_name = serializers.ReadOnlyField(source='band.name')
+
     class Meta:
         model = Album
-        fields = ['id', 'name', 'band']
+        fields = ['id', 'name', 'band_name']
 
 
 class SongSerializer(serializers.ModelSerializer):
+    band_name = serializers.ReadOnlyField(source='band.name')
+
     class Meta:
         model = Song
-        fields = ['id', 'name', 'duration', 'band']
+        fields = ['id', 'name', 'duration', 'band_name']
 
 
 class AlbumReviewSerializer(serializers.ModelSerializer):
