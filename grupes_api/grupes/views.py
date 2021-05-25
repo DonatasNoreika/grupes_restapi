@@ -114,7 +114,7 @@ class AlbumReviewCommentList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         album_review = AlbumReview.objects.get(pk=self.kwargs['pk'])
-        return AlbumReview.objects.filter(album_review=album_review)
+        return AlbumReviewComment.objects.filter(album_review=album_review)
 
 
 class AlbumReviewLikeList(generics.ListCreateAPIView):
@@ -128,4 +128,4 @@ class AlbumReviewLikeList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         album_review = AlbumReview.objects.get(pk=self.kwargs['pk'])
-        return AlbumReview.objects.filter(album_review=album_review)
+        return AlbumReviewComment.objects.filter(album_review=album_review)
