@@ -38,6 +38,7 @@ class AlbumReviewSerializer(serializers.ModelSerializer):
 class AlbumReviewCommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     user_id = serializers.ReadOnlyField(source='user.id')
+    album_review = serializers.ReadOnlyField(source='album_review.id')
 
     class Meta:
         model = AlbumReviewComment
@@ -47,6 +48,7 @@ class AlbumReviewCommentSerializer(serializers.ModelSerializer):
 class AlbumReviewLikeSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     user_id = serializers.ReadOnlyField(source='user.id')
+    album_review = serializers.ReadOnlyField(source='album_review.id')
 
     class Meta:
         model = AlbumReviewLike
