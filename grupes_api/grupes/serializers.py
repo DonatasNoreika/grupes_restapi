@@ -44,10 +44,16 @@ class AllAlbumReviewSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     user_id = serializers.ReadOnlyField(source='user.id')
     album_name = serializers.ReadOnlyField(source='album.name')
+    comments = serializers.StringRelatedField(many=True)
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = AlbumReview
-        fields = ['id', 'user', 'user_id', 'album_name', 'album', 'content', 'score']
+        fields = ['id', 'user', 'user_id', 'album_name', 'album', 'content', 'score', 'comments', 'likes_count']
+
+    def get_likes_count(self, obj):
+        return AlbumReviewLike.objects.filter(album_review=obj).count()
+
 
 class AlbumReviewCommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')

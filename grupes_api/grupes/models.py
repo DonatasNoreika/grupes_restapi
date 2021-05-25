@@ -38,8 +38,11 @@ class AlbumReview(models.Model):
 
 class AlbumReviewComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    album_review = models.ForeignKey('AlbumReview', verbose_name="Album Review", on_delete=models.CASCADE)
+    album_review = models.ForeignKey('AlbumReview', verbose_name="Album Review", on_delete=models.CASCADE, related_name='comments')
     content = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.content}"
 
 
 class AlbumReviewLike(models.Model):
