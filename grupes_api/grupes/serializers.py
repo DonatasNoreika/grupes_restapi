@@ -14,11 +14,11 @@ class BandSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    band_name = serializers.ReadOnlyField(source='band.name')
+    band_name = serializers.StringRelatedField(source='band.name')
 
     class Meta:
         model = Album
-        fields = ['id', 'name', 'band_name']
+        fields = ['id', 'band_name', 'band', 'name']
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -26,18 +26,28 @@ class SongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
-        fields = ['id', 'name', 'duration', 'band_name']
+        fields = ['id', 'band', "band_name", 'name', 'duration', ]
 
 
 class AlbumReviewSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     user_id = serializers.ReadOnlyField(source='user.id')
     album = serializers.ReadOnlyField(source='album.id')
+    album_name = serializers.ReadOnlyField(source='album.name')
 
     class Meta:
         model = AlbumReview
-        fields = ['id', 'user', 'user_id', 'album', 'content', 'score']
+        fields = ['id', 'user', 'user_id', 'album_name', 'album', 'content', 'score']
 
+
+class AllAlbumReviewSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    user_id = serializers.ReadOnlyField(source='user.id')
+    album_name = serializers.ReadOnlyField(source='album.name')
+
+    class Meta:
+        model = AlbumReview
+        fields = ['id', 'user', 'user_id', 'album_name', 'album', 'content', 'score']
 
 class AlbumReviewCommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')

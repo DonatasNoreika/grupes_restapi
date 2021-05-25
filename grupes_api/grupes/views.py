@@ -15,9 +15,11 @@ from .serializers import (BandSerializer,
                           SongSerializer,
                           AlbumReviewSerializer,
                           AlbumReviewCommentSerializer,
-                          AlbumReviewLikeSerializer)
+                          AlbumReviewLikeSerializer,
+                          AllAlbumReviewSerializer)
 
 from rest_framework.exceptions import ValidationError
+
 
 class BandList(generics.ListCreateAPIView):
     queryset = Band.objects.all()
@@ -43,14 +45,17 @@ class BandDetail(generics.RetrieveUpdateDestroyAPIView):
     #     else:
     #         raise ValidationError('Negalima koreguoti svetimų pranešimų!')
 
+
 class AlbumList(generics.ListCreateAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+
 
 class AlbumDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class SongList(generics.ListCreateAPIView):
     queryset = Song.objects.all()
@@ -76,13 +81,15 @@ class AlbumReviewList(generics.ListCreateAPIView):
         album = Album.objects.get(pk=self.kwargs['pk'])
         return AlbumReview.objects.filter(album=album)
 
+
 class AllAlbumReviewList(generics.ListCreateAPIView):
     queryset = AlbumReview.objects.all()
-    serializer_class = AlbumReviewSerializer
+    serializer_class = AllAlbumReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 class AlbumReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AlbumReview.objects.all()
@@ -102,6 +109,7 @@ class AlbumReviewDetail(generics.RetrieveUpdateDestroyAPIView):
             return self.update(request, *args, **kwargs)
         else:
             raise ValidationError('Negalima koreguoti svetimų komentarų!')
+
 
 class AlbumReviewCommentList(generics.ListCreateAPIView):
     queryset = AlbumReviewComment.objects.all()
