@@ -69,7 +69,12 @@ class AlbumReviewList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        album = Album.objects.get(pk=self.kwargs['pk'])
+        serializer.save(user=self.request.user, album=album)
+
+    def get_queryset(self):
+        album = Album.objects.get(pk=self.kwargs['pk'])
+        return AlbumReview.objects.filter(album=album)
 
 
 class AlbumReviewCommentList(generics.ListCreateAPIView):

@@ -16,6 +16,7 @@ urlpatterns = [
     path('bands/<int:pk>', AlbumDetail.as_view()),
     path('songs', SongList.as_view()),
     path('album_reviews', AlbumReviewList.as_view()),
+    path('albums/<int:pk>/reviews', AlbumReviewList.as_view()),
     path('album_review_comments', AlbumReviewCommentList.as_view()),
     path('album_review_likes', AlbumReviewLikeList.as_view()),
 ]

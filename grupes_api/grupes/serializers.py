@@ -28,6 +28,7 @@ class SongSerializer(serializers.ModelSerializer):
 class AlbumReviewSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     user_id = serializers.ReadOnlyField(source='user.id')
+    album = serializers.ReadOnlyField(source='album.id')
 
     class Meta:
         model = AlbumReview
