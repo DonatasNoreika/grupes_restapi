@@ -19,6 +19,8 @@ from .serializers import (BandSerializer,
                           AllAlbumReviewSerializer)
 
 from rest_framework.exceptions import ValidationError
+from rest_framework import generics, permissions, mixins, status
+from rest_framework.response import Response
 
 
 class BandList(generics.ListCreateAPIView):
@@ -125,15 +127,24 @@ class AlbumReviewCommentList(generics.ListCreateAPIView):
         return AlbumReviewComment.objects.filter(album_review=album_review)
 
 
-class AlbumReviewLikeList(generics.ListCreateAPIView):
+class AlbumReviewLikeList(generics.CreateAPIView, mixins.DestroyModelMixin):
     queryset = AlbumReviewLike.objects.all()
     serializer_class = AlbumReviewLikeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
+        if self.get_queryset().exists():
+            raise ValidationError('Jūs jau palikote patiktuką šiam pranešimui!')
         album_review = AlbumReview.objects.get(pk=self.kwargs['pk'])
         serializer.save(user=self.request.user, album_review=album_review)
 
     def get_queryset(self):
         album_review = AlbumReview.objects.get(pk=self.kwargs['pk'])
         return AlbumReviewComment.objects.filter(album_review=album_review)
+
+    def delete(self, request, *args, **kwargs):
+        if self.get_queryset().exists():
+            self.get_queryset().delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise ValidationError('Jūs nepalikote patiktuko po šiuo pranešimu!')
