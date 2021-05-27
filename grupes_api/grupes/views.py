@@ -16,11 +16,13 @@ from .serializers import (BandSerializer,
                           AlbumReviewSerializer,
                           AlbumReviewCommentSerializer,
                           AlbumReviewLikeSerializer,
-                          AllAlbumReviewSerializer)
+                          AllAlbumReviewSerializer,
+                          UserSerializer)
 
 from rest_framework.exceptions import ValidationError
 from rest_framework import generics, permissions, mixins, status
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 
 class BandList(generics.ListCreateAPIView):
@@ -149,3 +151,7 @@ class AlbumReviewLikeList(generics.CreateAPIView, mixins.DestroyModelMixin):
         else:
             raise ValidationError('Jūs nepalikote patiktuko po šiuo pranešimu!')
 
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny, )
