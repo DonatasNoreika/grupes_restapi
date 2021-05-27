@@ -28,6 +28,7 @@ from django.contrib.auth.models import User
 class BandList(generics.ListCreateAPIView):
     queryset = Band.objects.all()
     serializer_class = BandSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class BandDetail(generics.RetrieveUpdateDestroyAPIView):
