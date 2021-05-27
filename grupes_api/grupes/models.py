@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Band(models.Model):
     name = models.CharField(verbose_name="Name", max_length=150)
+    image = models.ImageField(upload_to='pictures', null=True)
 
     def __str__(self):
         return self.name

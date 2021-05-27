@@ -10,7 +10,7 @@ from .models import (Band,
 class BandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Band
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'image']
 
 
 class AlbumSerializer(serializers.ModelSerializer):

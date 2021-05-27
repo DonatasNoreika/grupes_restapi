@@ -148,3 +148,4 @@ class AlbumReviewLikeList(generics.CreateAPIView, mixins.DestroyModelMixin):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             raise ValidationError('Jūs nepalikote patiktuko po šiuo pranešimu!')
+
